@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corkscrew-Blow Portfolio | 熊本から日本を強く。</title>
+    <!-- Google Fonts: Noto Sans JP (日本語), Montserrat (英語見出し) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           CSS Variables & Reset
+           ========================================= */
+        :root {
+            /* Light Mode (Default) */
+            --main-color: #2C3E50;
+            --accent-color: #E74C3C;
+            --bg-color: #ECF0F1;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --header-bg: rgba(236, 240, 241, 0.9);
+            --border-color: #ddd;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode */
+            --bg-color: #1a1a1a;
+            --text-color: #ECF0F1;
+            --card-bg: #2C3E50;
+            --main-color: #34495E; /* ダークモード用に少し調整 */
+            --header-bg: rgba(26, 26, 26, 0.9);
+            --border-color: #444;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: bottom;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 15px auto 0;
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           Header
+           ========================================= */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(15deg);
+        }
+
+        /* Mobile Nav */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none; /* シンプル化のため、SPではメニュー非表示またはハンバーガー実装推奨 */
+            }
+            .header-container {
+                justify-content: space-between;
+            }
+        }
+
+        /* =========================================
+           Hero Section
+           ========================================= */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-color) 0%, rgba(44, 62, 80, 0.1) 100%);
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-secondary {
+            border-color: var(--text-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 0.9rem; }
+            .btn-group { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; }
+        }
+
+        /* =========================================
+           About Section
+           ========================================= */
+        .about-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-img {
+            flex: 1;
+            text-align: center;
+        }
+
+        .about-img img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--accent-color);
+            box-shadow: var(--shadow);
+        }
+
+        .about-text {
+            flex: 2;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .about-wrapper { flex-direction: column; text-align: center; }
+        }
+
+        /* =========================================
+           Skills Section
+           ========================================= */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .skill-list li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .skill-list li::before {
+            content: '\f00c'; /* FontAwesome Check */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+
+        /* =========================================
+           Works Section
+           ========================================= */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .work-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .work-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .work-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .work-content p {
+            font-size: 0.95rem;
+            margin-bottom: auto;
+        }
+
+        @media (max-width: 900px) {
+            .works-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .works-grid { grid-template-columns: 1fr; }
+        }
+
+        /* =========================================
+           Contact Section
+           ========================================= */
+        #contact {
+            background-color: rgba(44, 62, 80, 0.03);
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .sns-link {
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 2rem;
+            color: var(--main-color);
+        }
+        .sns-link:hover {
+            color: #1877F2; /* Facebook Blue */
+        }
+        [data-theme="dark"] .sns-link {
+            color: #ECF0F1;
+        }
+
+        /* =========================================
+           Footer
+           ========================================= */
+        footer {
+            background-color: var(--main-color);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">CORKSCREW<span>-BLOW</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#works">Works</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle" aria-label="ダークモード切替">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content fade-in">
+                <h1>熊本から日本を強く。</h1>
+                <p>失われた30年を取り戻す。日本企業を強くする仕組みを構築し、業務に集中出来る体制を総合的に整えます。</p>
+                <div class="btn-group">
+                    <a href="#works" class="btn btn-primary">実績を見る</a>
+                    <a href="#contact" class="btn btn-secondary">お問い合わせ</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-padding">
+            <div class="container">
+                <h2 class="section-title fade-in">Who We Are</h2>
+                <div class="about-wrapper fade-in">
+                    <div class="about-img">
+                        <!-- Facebook URLは画像そのものではないため、プレースホルダーを表示 -->
+                        <img src="https://placehold.co/400x400/2C3E50/ECF0F1?text=Corkscrew-Blow" alt="Corkscrew-Blow Profile">
+                        <!-- ※実際の運用では適切な画像パスへ変更してください -->
+                    </div>
+                    <div class="about-text">
+                        <p>はじめまして、Corkscrew-Blowです。</p>
+                        <h3>AIで、SNS集客を“仕組み”に。</h3>
+                        <p>AIを活用したSNS集客の設計・構築・内製化支援を行っています。<br>
+                        投稿・広告・導線を一体化し、企業の集客を安定させるコンサルティングを提供しています。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section-padding">
+            <div class="container">
+                <h2 class="section-title fade-in">My Skills</h2>
+                <div class="skills-grid fade-in">
+                    <div class="skill-card">
+                        <h3><i class="fas fa-pen-nib"></i> Design</h3>
+                        <ul class="skill-list">
+                            <li>Figma / Adobe XD (ワイヤーフレーム・プロトタイプ作成)</li>
+                            <li>Photoshop (写真補正・バナー作成)</li>
+                            <li>Illustrator (ロゴ・アイコン作成)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <h3><i class="fas fa-code"></i> Development</h3>
+                        <ul class="skill-list">
+                            <li>HTML5 (セマンティックなマークアップ)</li>
+                            <li>CSS3 / SCSS (Flexbox, Grid, BEM設計)</li>
+                            <li>JavaScript (DOM操作, アニメーション)</li>
+                            <li>WordPress (オリジナルテーマ作成)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Works Section -->
+        <section id="works" class="section-padding">
+            <div class="container">
+                <h2 class="section-title fade-in">Selected Works</h2>
+                <div class="works-grid fade-in">
+                    <!-- Case 1 -->
+                    <article class="work-card">
+                        <div class="work-content">
+                            <h3>株式会社TUS<br><small style="font-size:0.7em; color:inherit; opacity:0.8;">(コーポレートサイト)</small></h3>
+                            <p>信頼感を重視したネイビー基調のデザイン。レスポンシブ対応によりスマホからの問い合わせが120%増加。</p>
+                        </div>
+                    </article>
+                    <!-- Case 2 -->
+                    <article class="work-card">
+                        <div class="work-content">
+                            <h3>サプリメント「レスベラトロール」<br><small style="font-size:0.7em; color:inherit; opacity:0.8;">(ランディングページ)</small></h3>
+                            <p>ターゲット層（全年齢女性）に響くゴールドとピンクの配色。FVの離脱率改善に貢献。</p>
+                        </div>
+                    </article>
+                    <!-- Case 3 -->
+                    <article class="work-card">
+                        <div class="work-content">
+                            <h3>カフェ「The Anchor」<br><small style="font-size:0.7em; color:inherit; opacity:0.8;">(店舗サイト)</small></h3>
+                            <p>暖色系で居心地の良さを表現。メニューのシズル感を引き立てるレイアウト。</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding">
+            <div class="container">
+                <h2 class="section-title fade-in">Get In Touch</h2>
+                <div class="contact-content fade-in">
+                    <p>制作のご依頼、お見積もり、その他ご相談はお気軽にどうぞ。2営業日以内に返信いたします。</p>
+                    
+                    <!-- mailtoを使用してユーザーのメーラーを起動 -->
+                    <form action="mailto:corkscrew1971@gmail.com?subject=Webサイトからのお問い合わせ" method="post" enctype="text/plain" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">お名前</label>
+                            <input type="text" id="name" name="お名前" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">メールアドレス</label>
+                            <input type="email" id="email" name="メールアドレス" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">お問い合わせ内容</label>
+                            <textarea id="message" name="お問い合わせ内容" rows="5" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">送信内容を確認してメーラーを起動</button>
+                    </form>
+
+                    <a href="https://www.facebook.com/profile.php?id=61586378292143&locale=ja_JP" target="_blank" class="sns-link" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Corkscrew-Blow. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // =========================================
+        // Dark Mode Logic
+        // =========================================
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Check local storage on load
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        // Toggle function
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        // =========================================
+        // Scroll Animation (Intersection Observer)
+        // =========================================
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // =========================================
+        // Smooth Scroll for Anchor Links
+        // =========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = 70;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
